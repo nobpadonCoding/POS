@@ -1,0 +1,83 @@
+<html>
+<head>
+  <meta charset="UTF-8" />
+ <meta name="format-detection" content="telephone=no" />
+ <meta name="msapplication-tap-highlight" content="no" />
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+ <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+ <link href="css/style.css" rel="stylesheet">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+<script src="js\jquery-2.1.4.js"></script>
+</head>
+<body>
+
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $.getJSON("http://127.0.0.1/POS/getoutlet.php",function(result){
+      $("#tableoutletname").append("<option> ----เลือก Outlet ---- </option>");
+    $.each(result, function(i, field){
+      $("#tableoutletname").append("<option value='"+field.outletcode+"'>"+field.outletname+"</option>");
+    });
+  });
+
+  $("#tableoutletname").on('change',function(){
+      var outletname=$(this).val();
+      var shift=$("#tableoutletshift").empty();
+   
+    $.ajax({
+        url: "http://127.0.0.1/POS/getoutletshift.php",
+        type: "POST",
+        data: {outlet:outletname},
+        success: function(jd) { 
+        // console.log(jd);
+          var obj = jQuery.parseJSON(jd);
+          var opt = "<option selected='selected'>----เลือก SHIFT----";
+          $.each(obj, function(key, val){
+            opt+="<option value='"+val.shiftcode+"'>"+val.shiftname;
+          });
+     shift.html(opt);
+        } 
+    });
+  });
+  });
+  </script>
+
+  <script type="text/javascript">
+  function myFunction(){
+  var user = $('#user').val();
+  var password = $('#password').val();
+  var outletcode = $('#tableoutletname').val();
+  var shiftcode = $('#tableoutletshift').val();
+  // console.log(user,password,outletcode,shiftcode);
+
+    $.ajax({
+        url: "http://127.0.0.1/POS/login_process.php",
+        type: "POST",
+        data: {user:user,password:password,outletcode:outletcode,shiftcode:shiftcode},
+        success: function(check) {
+
+         alert(check); 
+        
+        } 
+    });
+  }
+  </script>
+
+
+
+  <!-- <form method="post" name="login" action="login_process.php" id="login" enctype="multipart/form-data" > -->
+  <div class="input-field inline">
+    <select class="browser-default" value="" id="tableoutletname"></select>
+    <br>
+  <div class="input-field inline">
+    <select class="browser-default"  id="tableoutletshift" ></select>
+    <br>
+    <input name="user" id="user" type="text" placeholder="User"></input>
+    <input name="password" id="password" type="password" placeholder="Password"></input>
+    <button class="waves-effect waves-light btn" type="Submit" name="Submit" onclick="myFunction()">LOGON
+      <i class="material-icons right">perm_identity</i>
+    </button>
+  </div>
+  <!-- </form> -->
+</body>
+</html>
