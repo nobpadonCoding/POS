@@ -1,5 +1,5 @@
 <?php
-include("connect.php");
+// include("connect.php");
 $data_user = $_POST["user"];
 $data_password = $_POST["password"];
 $data_outletcode = $_POST["outletcode"];
@@ -13,9 +13,9 @@ $row2 = mysqli_num_rows($result2);
 
 
 if($rows >= 1){
-	
+
 	if ($row2>=1) {
-		
+
 		echo "success";
 	}else
 
