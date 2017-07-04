@@ -23,20 +23,20 @@
   $("#tableoutletname").on('change',function(){
       var outletname=$(this).val();
       var shift=$("#tableoutletshift").empty();
-   
+
     $.ajax({
         url: "http://127.0.0.1/POS/getoutletshift.php",
         type: "POST",
         data: {outlet:outletname},
-        success: function(jd) { 
+        success: function(jd) {
         // console.log(jd);
           var obj = jQuery.parseJSON(jd);
-          var opt = "<option selected='selected'>----เลือก SHIFT----";
+          var opt = "";
           $.each(obj, function(key, val){
             opt+="<option value='"+val.shiftcode+"'>"+val.shiftname;
           });
      shift.html(opt);
-        } 
+        }
     });
   });
   });
@@ -56,9 +56,9 @@
         data: {user:user,password:password,outletcode:outletcode,shiftcode:shiftcode},
         success: function(check) {
 
-         alert(check); 
-        
-        } 
+         alert(check);
+
+        }
     });
   }
   </script>

@@ -1,9 +1,23 @@
 <?php
-// include("connect.php");
+include("connect.php");
 $data_user = $_POST["user"];
 $data_password = $_POST["password"];
 $data_outletcode = $_POST["outletcode"];
 $data_shiftcode = $_POST["shiftcode"];
+
+if (empty($data_shiftcode)||empty($data_outletcode)) {
+
+	echo "8888";
+	exit();
+
+}
+if(empty($data_user)||empty($data_password)){
+
+	echo "55555";
+	exit();
+
+}else{
+
 
 $result = mysqli_query($con, "SELECT * FROM posusers where username = '".$data_user."' and userpassword = '".$data_password."'");
 $rows = mysqli_num_rows($result);
@@ -25,6 +39,7 @@ if($rows >= 1){
 
 	echo"no success";
 
+}
 }
 
 ?>
